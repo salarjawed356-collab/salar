@@ -211,7 +211,7 @@ export default function IngredientsSection() {
 
             <p className="text-neutral-600 text-xs mt-3 leading-relaxed">
               * Based on PSQCA proximate analysis. DV = Daily Value based on 2000 kcal diet.
-              Hover rows for notes. VitaRoot is best used as part of a complete diet.
+              Hover rows for notes. ZORX is best used as part of a complete diet.
               Supplement Vitamin D and B12 separately.
             </p>
           </motion.div>

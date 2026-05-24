@@ -13,10 +13,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "VitaRoot — Rooted in Health, Powered for Life",
+  title: "ZORX — Pakistan's Premium Plant Protein",
   description:
-    "VitaRoot is a plant-based wellness protein powder for students, working adults, and fitness beginners. Natural ingredients. Real nourishment. Honest nutrition.",
-  keywords: ["plant-based protein", "vegan protein", "wellness protein powder", "VitaRoot", "natural protein"],
+    "ZORX is a plant-based wellness protein powder for students, working adults, and fitness beginners. Natural ingredients. Real nourishment. Honest nutrition.",
+  keywords: ["plant-based protein", "vegan protein", "wellness protein powder", "ZORX", "natural protein"],
 };
 
 export default function RootLayout({

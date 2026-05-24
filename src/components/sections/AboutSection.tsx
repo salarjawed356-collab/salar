@@ -12,13 +12,13 @@ const timeline = [
     desc: 'Salar Jawed — a Karachi-based fitness enthusiast — was spending PKR 12,000/month on imported protein. Reading the label one day, he realised: most of it was isolates, fillers, and artificial flavours. There had to be a better way.',
   },
   {
-    year: '2023',
+    year: 'Early 2023',
     icon: Leaf,
     title: 'Research & Formulation',
     desc: 'Months of research with a PSQCA-certified nutritionist. 14 whole-food ingredients were selected — pea protein, hemp, quinoa, makhana (lotus seeds), chickpeas, flaxseed, sunflower seeds and more. Every ingredient chosen for a specific function in the body.',
   },
   {
-    year: '2023',
+    year: 'Late 2023',
     icon: PackageCheck,
     title: 'Lab-Tested in Karachi',
     desc: 'Every batch produced right here in Karachi — pre-soaked, dry-roasted, cold-ground. PSQCA batch-certified. SANHA Halal verified. The goal: 32–36g protein per 100g, no artificial anything.',
@@ -27,7 +27,7 @@ const timeline = [
     year: '2024',
     icon: Users,
     title: '10,000+ Happy Customers',
-    desc: 'Within the first year, VitaRoot reached customers in every major city in Pakistan — Karachi, Lahore, Islamabad, Peshawar, Quetta. COD. JazzCash. EasyPaisa. Built for Pakistan, priced for Pakistan.',
+    desc: 'Within the first year, ZORX reached customers in every major city in Pakistan — Karachi, Lahore, Islamabad, Peshawar, Quetta. COD. JazzCash. EasyPaisa. Built for Pakistan, priced for Pakistan.',
   },
 ]
 
@@ -95,7 +95,7 @@ export default function AboutSection() {
             </span>
           </h2>
           <p className="text-neutral-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-            VitaRoot started with one frustration — quality plant protein was available only to those who could afford
+            ZORX started with one frustration — quality plant protein was available only to those who could afford
             PKR 12,000–14,000/month. We changed that. Built in Karachi, for Pakistan.
           </p>
         </motion.div>
@@ -115,7 +115,7 @@ export default function AboutSection() {
               <div className="text-green-400 text-5xl font-serif leading-none mb-3">&quot;</div>
               <p className="text-white text-lg md:text-xl leading-relaxed font-medium italic mb-6">
                 Pakistan deserves a protein powder it can actually afford — made from real ingredients,
-                tested in our own labs, and delivered to your door cash-on-delivery. That&apos;s VitaRoot.
+                tested in our own labs, and delivered to your door cash-on-delivery. That&apos;s ZORX.
               </p>
               <div className="flex items-center gap-4">
                 {/* Avatar */}
@@ -124,7 +124,7 @@ export default function AboutSection() {
                 </div>
                 <div>
                   <p className="text-white font-bold text-base">Salar Jawed</p>
-                  <p className="text-green-400 text-sm">Founder, VitaRoot</p>
+                  <p className="text-green-400 text-sm">Founder, ZORX</p>
                   <div className="flex items-center gap-1 mt-0.5">
                     <MapPin className="w-3 h-3 text-neutral-500" />
                     <p className="text-neutral-500 text-xs">Karachi, Pakistan</p>
@@ -137,17 +137,17 @@ export default function AboutSection() {
             <div className="p-6 rounded-2xl bg-[#080f08] border border-green-900/30">
               <h3 className="text-white font-bold text-lg mb-3 flex items-center gap-2">
                 <Leaf className="w-5 h-5 text-green-400" />
-                The VitaRoot Mission
+                The ZORX Mission
               </h3>
               <p className="text-neutral-400 text-sm leading-relaxed mb-3">
-                Imported proteins dominate Pakistan&apos;s market at 2–3× the price of VitaRoot —
+                Imported proteins dominate Pakistan&apos;s market at 2–3× the price of ZORX —
                 with fewer ingredients and lower protein content. We saw an opportunity to do
                 better: 14 whole-food plant ingredients, cold-ground in Karachi, priced fairly
                 for every Pakistani household.
               </p>
               <p className="text-neutral-400 text-sm leading-relaxed">
                 We don&apos;t believe nutrition should be a luxury. Whether you&apos;re a gym-goer
-                in DHA, a student in Gulshan, or a mother in Saddar — VitaRoot is for you.
+                in DHA, a student in Gulshan, or a mother in Saddar — ZORX is for you.
               </p>
             </div>
 
@@ -184,7 +184,7 @@ export default function AboutSection() {
             <div className="space-y-5">
               {timeline.map((item, i) => (
                 <motion.div
-                  key={item.year}
+                  key={item.title}
                   initial={{ opacity: 0, x: 20 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ delay: 0.4 + i * 0.12 }}

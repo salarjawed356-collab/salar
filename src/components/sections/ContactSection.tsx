@@ -17,7 +17,7 @@ const WhatsAppIcon = () => (
 const faqs = [
   { q: 'How long does delivery take?', a: '1–2 days within Karachi. 3–5 days for Lahore, Islamabad & other cities via TCS/Leopards. Order tracking link sent via WhatsApp after dispatch.' },
   { q: 'Do you offer Cash on Delivery (COD)?', a: 'Yes — COD is available across Pakistan for all orders. No card needed. Pay when you receive.' },
-  { q: 'Is VitaRoot Halal?', a: '100% plant-based with no animal-derived ingredients. SANHA Halal certification in process. No gelatin, no collagen, no whey.' },
+  { q: 'Is ZORX Halal?', a: '100% plant-based with no animal-derived ingredients. SANHA Halal certification in process. No gelatin, no collagen, no whey.' },
   { q: "What's the protein per serving?", a: '32–36g of complete plant protein per 100g serving — significantly higher than most imported whey proteins (typically 22–25g per 100g).' },
   { q: 'How should I store it?', a: 'Cool, dry place in a sealed container. The resealable zipper pouch keeps it fresh. Refrigeration extends shelf life to 12 months.' },
   { q: 'Can I return it if I don\'t like it?', a: '7-day money-back guarantee on unopened pouches — no questions asked. WhatsApp us to initiate a return.' },

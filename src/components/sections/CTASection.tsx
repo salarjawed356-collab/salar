@@ -44,13 +44,13 @@ export default function CTASection() {
             </span>
           </h2>
           <p className="text-neutral-400 text-base md:text-lg max-w-xl mx-auto mb-8 sm:mb-10 relative">
-            Join 10,000+ Pakistanis who chose a healthier, more balanced life with VitaRoot.
+            Join 10,000+ Pakistanis who chose a healthier, more balanced life with ZORX.
             Plant-powered. Honestly made. Priced for Pakistan.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 relative">
             <a href="#products" className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 sm:px-10 py-3.5 sm:py-4 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold text-base hover:from-green-400 hover:to-emerald-500 transition-all duration-300 shadow-2xl shadow-green-900/60 hover:scale-105">
-              Shop VitaRoot Now
+              Shop ZORX Now
               <ArrowRight className="w-5 h-5" />
             </a>
             <a href="#products" className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 sm:px-10 py-3.5 sm:py-4 rounded-full border border-green-700/50 text-neutral-300 font-semibold hover:border-green-500/60 hover:text-white transition-all duration-300">

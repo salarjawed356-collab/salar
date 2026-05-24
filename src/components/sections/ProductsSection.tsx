@@ -7,14 +7,14 @@ import { ShoppingCart, Star, ChevronRight, BadgeCheck, Zap } from 'lucide-react'
 const products = [
   {
     id: 1,
-    name: 'VitaRoot 250g',
+    name: 'ZORX 250g',
     subtitle: 'Trial Pack — Perfect First Try',
     sku: 'TPP-250',
     price: 'PKR 1,899',
     priceNum: 1899,
     servings: '5 servings',
     weight: '250g',
-    img: 'https://images.unsplash.com/photo-1622484211148-9b5f2a509c8b?w=400&h=400&fit=crop&crop=center',
+    img: '/zorx-product.webp',
     rating: 4.9,
     reviews: 234,
     badge: 'Try First',
@@ -30,14 +30,14 @@ const products = [
   },
   {
     id: 2,
-    name: 'VitaRoot 500g',
+    name: 'ZORX 500g',
     subtitle: 'Standard Pack — Most Popular',
     sku: 'TPP-500',
     price: 'PKR 3,299',
     priceNum: 3299,
     servings: '10 servings',
     weight: '500g',
-    img: 'https://images.unsplash.com/photo-1593095948071-474c5cc2989d?w=400&h=400&fit=crop&crop=center',
+    img: '/zorx-product.webp',
     rating: 4.9,
     reviews: 412,
     badge: 'Most Popular',
@@ -53,21 +53,21 @@ const products = [
   },
   {
     id: 3,
-    name: 'VitaRoot 1 kg',
+    name: 'ZORX 1 kg',
     subtitle: 'Value Pack — Maximum Savings',
     sku: 'TPP-1000',
     price: 'PKR 5,999',
     priceNum: 5999,
     servings: '20 servings',
     weight: '1 kg',
-    img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&crop=center',
+    img: '/zorxfitness.webp',
     rating: 4.8,
     reviews: 189,
     badge: 'Best Value',
     badgeColor: 'bg-amber-500',
     tags: ['20 Servings', 'Bulk Save', '2 Months'],
     macros: { protein: '32–36g', carbs: '35g', fat: '12–14g', calories: '420 kcal' },
-    desc: 'Imported plant proteins cost PKR 8,500–14,000 per kg. VitaRoot delivers equal or better protein (32–36g vs the imported average of 22–25g) for PKR 5,999. The smart choice for serious users.',
+    desc: 'Imported plant proteins cost PKR 8,500–14,000 per kg. ZORX delivers equal or better protein (32–36g vs the imported average of 22–25g) for PKR 5,999. The smart choice for serious users.',
     perServing: 'PKR 300/serving',
     gradient: 'from-amber-900/40 to-yellow-900/20',
     border: 'border-amber-700/30',
@@ -103,14 +103,14 @@ export default function ProductsSection() {
           className="text-center mb-6"
         >
           <span className="inline-block text-green-400 text-sm font-semibold tracking-widest uppercase mb-4 border border-green-500/30 bg-green-500/10 px-4 py-1.5 rounded-full">
-            Shop VitaRoot
+            Shop ZORX
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
             Choose Your
             <span className="bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent"> Pack Size</span>
           </h2>
           <p className="text-neutral-400 text-lg max-w-xl mx-auto mb-6">
-            Same complete 14-ingredient formula in every size. Imported plant protein costs PKR 8,500–14,000/kg. VitaRoot: <span className="text-green-400 font-semibold">PKR 5,999/kg.</span>
+            Same complete 14-ingredient formula in every size. Imported plant protein costs PKR 8,500–14,000/kg. ZORX: <span className="text-green-400 font-semibold">PKR 5,999/kg.</span>
           </p>
 
           {/* Trust badges row */}
@@ -133,7 +133,7 @@ export default function ProductsSection() {
         >
           <div className="text-sm text-neutral-400">
             <span className="text-red-400 line-through mr-2">Imported vegan protein: PKR 8,500–14,000/kg</span>
-            <span className="text-green-400 font-bold">→ VitaRoot: PKR 5,999/kg</span>
+            <span className="text-green-400 font-bold">→ ZORX: PKR 5,999/kg</span>
           </div>
           <div className="hidden sm:block w-px h-5 bg-neutral-700" />
           <div className="text-sm text-neutral-400">

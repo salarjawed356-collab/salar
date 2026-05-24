@@ -31,7 +31,7 @@ export default function FloatingWhatsApp() {
                   <WhatsAppIcon />
                 </div>
                 <div>
-                  <p className="text-white font-bold text-sm">VitaRoot Support</p>
+                  <p className="text-white font-bold text-sm">ZORX Support</p>
                   <div className="flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-green-300 animate-pulse" />
                     <p className="text-green-200 text-xs">Typically replies in minutes</p>
@@ -47,10 +47,10 @@ export default function FloatingWhatsApp() {
             <div className="p-4">
               <div className="bg-[#1a2e1a] rounded-xl p-3 mb-4">
                 <p className="text-neutral-300 text-sm leading-relaxed">
-                  👋 Hi! Questions about VitaRoot? We&apos;re here to help.<br />
+                  👋 Hi! Questions about ZORX? We&apos;re here to help.<br />
                   <span className="text-neutral-400 text-xs">Ask about ingredients, delivery, or place an order!</span>
                 </p>
-                <p className="text-neutral-600 text-[10px] mt-1.5 text-right">VitaRoot Team</p>
+                <p className="text-neutral-600 text-[10px] mt-1.5 text-right">ZORX Team</p>
               </div>
 
               {/* Quick replies */}

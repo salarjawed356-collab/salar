@@ -117,57 +117,23 @@ export default function HeroSection() {
 
             <div className="relative w-full h-full rounded-3xl overflow-hidden border border-green-800/40 bg-[#060e09] flex flex-col">
 
-              {/* ── Top: Protein powder photo ── */}
+              {/* ── Top: Real ZORX product photo ── */}
               <div className="relative flex-1 overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1593095948071-474c5cc2989d?w=900&h=500&fit=crop&crop=center"
-                  alt="VitaRoot natural plant protein powder"
-                  className="w-full h-full object-cover"
-                />
-                {/* Green tint overlay */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#0a2e14]/70 via-[#050f09]/30 to-[#050f09]/80" />
-
-                {/* Floating product pouch — centered over image */}
-                <div className="absolute inset-0 flex items-center justify-center">
+                {/* Floating product — real ZORX packaging */}
+                <div className="absolute inset-0 flex items-center justify-center bg-[#050f09]">
                   <motion.div
-                    animate={{ y: [0, -8, 0] }}
-                    transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
-                    className="relative"
+                    animate={{ y: [0, -10, 0] }}
+                    transition={{ repeat: Infinity, duration: 4.5, ease: 'easeInOut' }}
+                    className="relative w-full h-full flex items-center justify-center"
                   >
-                    {/* Pouch */}
-                    <div className="w-40 h-60 rounded-[2rem] bg-gradient-to-b from-[#0d3018] via-[#0f3a1c] to-[#071a09] border border-green-500/60 shadow-2xl shadow-green-900/70 flex flex-col items-center justify-between p-5 relative overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-br from-green-400/8 via-transparent to-emerald-500/5 pointer-events-none" />
-                      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-green-400/50 to-transparent rounded-t-[2rem]" />
-
-                      {/* Logo */}
-                      <div className="text-center relative z-10">
-                        <div className="flex items-center justify-center gap-1.5 mb-0.5">
-                          <Leaf className="w-4 h-4 text-green-400" />
-                          <span className="text-green-400 font-black text-lg tracking-tight">VitaRoot</span>
-                        </div>
-                        <p className="text-neutral-500 text-[9px] uppercase tracking-[0.18em]">Plant Protein</p>
-                      </div>
-
-                      {/* Scoop icon area */}
-                      <div className="flex flex-col items-center gap-1 relative z-10">
-                        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-green-700/40 to-emerald-900/60 border border-green-600/40 flex items-center justify-center">
-                          <span className="text-3xl">🥄</span>
-                        </div>
-                        <p className="text-green-300/80 text-[10px] font-medium mt-1">100g serving</p>
-                      </div>
-
-                      {/* Price + info */}
-                      <div className="text-center relative z-10 space-y-1">
-                        <p className="text-white font-bold text-sm">Original Blend</p>
-                        <p className="text-green-400 text-xs font-semibold">32–36g Protein</p>
-                        <div className="bg-green-500/20 border border-green-600/40 rounded-full px-3 py-0.5 mt-1">
-                          <span className="text-green-400 font-bold text-sm">PKR 5,999</span>
-                          <span className="text-neutral-500 text-[10px] ml-1">/ 1kg</span>
-                        </div>
-                      </div>
-                    </div>
-                    {/* Glow */}
-                    <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-28 h-6 bg-green-500/25 blur-xl rounded-full" />
+                    <img
+                      src="/zorx-product.webp"
+                      alt="ZORX Plant Protein — Pakistan's Plant Protein"
+                      className="w-full h-full object-contain object-center"
+                    />
+                    {/* subtle vignette so badges pop */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#050f09]/60 via-transparent to-transparent pointer-events-none" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-[#050f09]/30 via-transparent to-transparent pointer-events-none" />
                   </motion.div>
                 </div>
 

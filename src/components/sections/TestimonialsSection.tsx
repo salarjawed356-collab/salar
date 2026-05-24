@@ -13,8 +13,8 @@ const testimonials = [
     avatarBg: 'from-green-600 to-emerald-700',
     rating: 5,
     lang: 'ur-en',
-    text: 'Yaar VitaRoot ne sach mein game change kar diya. Pehle imported powder PKR 12,000 mein use karta tha — yehi quality aadhi qeemat pe. Muscles recovery bhi zyada fast hai aur koi bloating nahi. Karachi ka product hai aur quality foreign se behtar hai! 💪',
-    translation: '"VitaRoot truly changed the game. I used to spend PKR 12,000 on imports — same quality at half the price, better recovery, zero bloating."',
+    text: 'Yaar ZORX ne sach mein game change kar diya. Pehle imported powder PKR 12,000 mein use karta tha — yehi quality aadhi qeemat pe. Muscles recovery bhi zyada fast hai aur koi bloating nahi. Karachi ka product hai aur quality foreign se behtar hai! 💪',
+    translation: '"ZORX truly changed the game. I used to spend PKR 12,000 on imports — same quality at half the price, better recovery, zero bloating."',
     tag: 'Muscle Recovery',
     verified: true,
   },
@@ -26,7 +26,7 @@ const testimonials = [
     avatarBg: 'from-teal-600 to-green-700',
     rating: 5,
     lang: 'en',
-    text: 'As a working mother I need sustained energy without the mid-afternoon crash. VitaRoot delivers exactly that — no bloating, no heaviness, just clean fuel for a non-stop day. My kids even love the taste mixed in a banana shake! Highly recommend to every Pakistani mom.',
+    text: 'As a working mother I need sustained energy without the mid-afternoon crash. ZORX delivers exactly that — no bloating, no heaviness, just clean fuel for a non-stop day. My kids even love the taste mixed in a banana shake! Highly recommend to every Pakistani mom.',
     translation: null,
     tag: 'Daily Energy',
     verified: true,
@@ -39,8 +39,8 @@ const testimonials = [
     avatarBg: 'from-emerald-600 to-teal-700',
     rating: 5,
     lang: 'ur-en',
-    text: 'Finals ke time mujhe ek cheez chahiye thi — energy aur concentration. Energy drinks se mood kharab hota tha. VitaRoot ke baad brain fog gaya, focus aya. Aur halal certified hai, local hai — imported wala dekhna hi chhor diya. 🇵🇰',
-    translation: '"During finals I needed energy and focus — not a crash. VitaRoot cleared my brain fog. And it\'s halal-certified and local — I\'ve stopped looking at imports."',
+    text: 'Finals ke time mujhe ek cheez chahiye thi — energy aur concentration. Energy drinks se mood kharab hota tha. ZORX ke baad brain fog gaya, focus aya. Aur halal certified hai, local hai — imported wala dekhna hi chhor diya. 🇵🇰',
+    translation: '"During finals I needed energy and focus — not a crash. ZORX cleared my brain fog. And it\'s halal-certified and local — I\'ve stopped looking at imports."',
     tag: 'Mental Clarity',
     verified: true,
   },
@@ -52,7 +52,7 @@ const testimonials = [
     avatarBg: 'from-lime-600 to-green-700',
     rating: 5,
     lang: 'en',
-    text: "I've been recommending VitaRoot to all my female clients for 8 months. 32–36g protein per 100g beats most imports on the shelf. The ingredient list is transparent, PDCAAS-complete, and honestly the ginger + fennel combo means zero digestive complaints — which is huge for women.",
+    text: "I've been recommending ZORX to all my female clients for 8 months. 32–36g protein per 100g beats most imports on the shelf. The ingredient list is transparent, PDCAAS-complete, and honestly the ginger + fennel combo means zero digestive complaints — which is huge for women.",
     translation: null,
     tag: 'Trainer Approved',
     verified: true,
@@ -78,7 +78,7 @@ const testimonials = [
     avatarBg: 'from-cyan-600 to-teal-700',
     rating: 5,
     lang: 'en',
-    text: "Finally a Pakistani brand that doesn't cut corners on quality. I've reviewed 20+ protein powders and VitaRoot's formulation is genuinely impressive — pre-soaked legumes, cold-ground seeds, 7–9g fibre. My digestion has never felt better. The fennel and ginger are not just marketing, they actually work.",
+    text: "Finally a Pakistani brand that doesn't cut corners on quality. I've reviewed 20+ protein powders and ZORX's formulation is genuinely impressive — pre-soaked legumes, cold-ground seeds, 7–9g fibre. My digestion has never felt better. The fennel and ginger are not just marketing, they actually work.",
     translation: null,
     tag: 'Zero Bloating',
     verified: true,
@@ -115,7 +115,7 @@ export default function TestimonialsSection() {
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
             Karachi to Lahore to Islamabad —
-            <span className="bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent"> Pakistan Loves VitaRoot</span>
+            <span className="bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent"> Pakistan Loves ZORX</span>
           </h2>
           <p className="text-neutral-400 text-base md:text-lg max-w-xl mx-auto">
             Unfiltered reviews from real customers across Pakistan — in their own words.
@@ -213,13 +213,13 @@ export default function TestimonialsSection() {
           className="mt-12 text-center"
         >
           <p className="text-neutral-500 text-sm mb-4">
-            Join 10,000+ Pakistanis who&apos;ve made VitaRoot part of their daily routine
+            Join 10,000+ Pakistanis who&apos;ve made ZORX part of their daily routine
           </p>
           <a
             href="#products"
             className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold text-sm hover:from-green-400 hover:to-emerald-500 transition-all duration-300 shadow-lg shadow-green-900/40 hover:scale-105"
           >
-            Try VitaRoot Today — From PKR 1,899
+            Try ZORX Today — From PKR 1,899
           </a>
         </motion.div>
       </div>

@@ -30,7 +30,7 @@ export function ShaderAnimation({ className }: ShaderAnimationProps) {
       }
     `
 
-    // Fragment shader — green-tinted for VitaRoot brand
+    // Fragment shader — green-tinted for ZORX brand
     const fragmentShader = `
       #define TWO_PI 6.2831853072
       #define PI 3.14159265359
@@ -55,7 +55,7 @@ export function ShaderAnimation({ className }: ShaderAnimationProps) {
           }
         }
 
-        // Tint towards VitaRoot brand greens
+        // Tint towards ZORX brand greens
         vec3 brandTint = vec3(0.08, 0.45, 0.28);
         vec3 finalColor = mix(color, color * brandTint * 3.5, 0.55);
 

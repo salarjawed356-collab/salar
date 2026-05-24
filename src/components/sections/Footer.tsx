@@ -29,7 +29,7 @@ const YoutubeIcon = () => (
 
 const footerLinks = {
   Products: ['Original Blend', 'Vanilla Blend', 'Cacao Blend', 'Starter Bundle', 'Subscribe & Save'],
-  Company: ['About VitaRoot', 'Our Mission', 'Sustainability', 'Careers', 'Press Kit'],
+  Company: ['About ZORX', 'Our Mission', 'Sustainability', 'Careers', 'Press Kit'],
   Support: ['FAQ', 'Shipping & Returns', 'Track Your Order', 'Contact Us', 'Nutrition Guide'],
   Wellness: ['Blog', 'Recipes', 'Fitness Tips', 'Community', 'Ambassador Program'],
 }
@@ -54,7 +54,7 @@ export default function Footer() {
                 <Leaf className="w-5 h-5 text-white" />
               </div>
               <span className="text-xl font-bold text-white">
-                Vita<span className="text-green-400">Root</span>
+                <span className="text-green-400">ZORX</span>
               </span>
             </div>
             <p className="text-neutral-500 text-sm leading-relaxed mb-6">
@@ -127,8 +127,8 @@ export default function Footer() {
         {/* Bottom */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-neutral-600 text-xs">
           <div>
-            <p>© 2026 VitaRoot — Rooted in Health, Powered for Life.</p>
-            <p className="mt-1 text-neutral-700">SANHA Halal Certified · PSQCA Tested · Karachi, Pakistan · <a href="https://www.vitalslife.com" className="text-green-700 hover:text-green-500 transition-colors">www.vitalslife.com</a></p>
+            <p>© 2026 ZORX Health — Pakistan's Plant Protein</p>
+            <p className="mt-1 text-neutral-700">SANHA Halal Certified · PSQCA Tested · Karachi, Pakistan · <a href="https://www.zorxhealth.fitness.pk" className="text-green-700 hover:text-green-500 transition-colors">www.zorxhealth.fitness.pk</a></p>
           </div>
           <div className="flex gap-5">
             {['Privacy Policy', 'Terms of Service', 'Shipping Policy', 'Refund Policy'].map(item => (

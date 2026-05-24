@@ -41,7 +41,7 @@ export default function Navbar() {
             <Leaf className="w-5 h-5 text-white" />
           </div>
           <span className="text-xl font-bold text-white tracking-tight">
-            Vita<span className="text-green-400">Root</span>
+            <span className="text-green-400">ZORX</span>
           </span>
         </a>
 

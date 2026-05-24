@@ -74,7 +74,7 @@ export default function BenefitsSection() {
             <span className="bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent"> Real Body Benefits.</span>
           </h2>
           <p className="text-neutral-400 text-lg max-w-xl mx-auto">
-            Every ingredient in VitaRoot was chosen for a specific role in your body —
+            Every ingredient in ZORX was chosen for a specific role in your body —
             muscle repair, energy, recovery, and digestion. Science-backed, plant-powered.
           </p>
         </motion.div>
@@ -95,9 +95,9 @@ export default function BenefitsSection() {
               {/* ── Protein powder hero image ── */}
               <div className="relative h-60 overflow-hidden shrink-0">
                 <img
-                  src="https://images.unsplash.com/photo-1622484211148-9b5f2a509c8b?w=800&h=400&fit=crop&crop=center"
-                  alt="VitaRoot natural protein powder"
-                  className="w-full h-full object-cover"
+                  src="/zorx-product.webp"
+                  alt="ZORX Plant Protein — Pakistan's Plant Protein"
+                  className="w-full h-full object-cover object-top"
                 />
                 {/* Brand-green overlay */}
                 <div className="absolute inset-0 bg-gradient-to-br from-[#071a09]/60 via-transparent to-[#050f09]/80" />
@@ -184,7 +184,7 @@ export default function BenefitsSection() {
               </motion.div>
             ))}
 
-            {/* VitaRoot vs imported */}
+            {/* ZORX vs imported */}
             <motion.div
               initial={{ opacity: 0, x: 40 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -193,7 +193,7 @@ export default function BenefitsSection() {
             >
               <p className="text-white font-bold text-sm mb-3 flex items-center gap-2">
                 <TrendingUp className="w-4 h-4 text-green-400" />
-                VitaRoot vs Imported Protein
+                ZORX vs Imported Protein
               </p>
               <div className="space-y-2.5">
                 {[
