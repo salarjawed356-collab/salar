@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+:root {
+  --background: #050f09;
+  --foreground: #fafafa;
+  --card: #080f08;
+  --card-foreground: #fafafa;
+  --muted: #1e321e;
+  --muted-foreground: #737373;
+  --border: #1b321b;
+  --green-brand: #52B788;
+  --green-dark: #2D6A4F;
+  --cream: #F4ECD8;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-border: var(--border);
+  --color-muted-foreground: var(--muted-foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #050f09;
+  color: #fafafa;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #050f09; }
+::-webkit-scrollbar-thumb { background: #1a3a20; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #2d6a4f; }
+
+/* Radial background glow for hero */
+.bg-radial-gradient {
+  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(45,106,79,0.25) 0%, transparent 60%);
+}
+
+/* Aceternity spotlight animation */
+@keyframes spotlight {
+  0%   { opacity: 0; transform: translate(-72%, -62%) scale(0.5); }
+  100% { opacity: 1; transform: translate(-50%, -40%) scale(1); }
+}
+.animate-spotlight { animation: spotlight 2s ease 0.75s 1 forwards; }
+
+/* Fade-in-up utility */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in-up { animation: fadeInUp 0.6s ease both; }
