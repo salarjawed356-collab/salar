@@ -2,9 +2,11 @@
 
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 import { useRef, useState } from 'react'
-import { ShoppingCart, Star, ChevronRight, BadgeCheck, Zap, Check, X, Plus, Minus, MessageCircle, Trash2 } from 'lucide-react'
+import { ShoppingCart, Star, ChevronRight, BadgeCheck, Zap, Check, X, Plus, Minus, MessageCircle, Trash2, User, Phone, MapPin, ChevronLeft, Package } from 'lucide-react'
 
 type CartItem = { id: number; name: string; price: number; weight: string; qty: number }
+type Step = 'cart' | 'form' | 'done'
+type OrderForm = { name: string; phone: string; city: string; address: string; payment: string }
 
 
 const products = [
@@ -93,6 +95,9 @@ export default function ProductsSection() {
   const [cart, setCart] = useState<CartItem[]>([])
   const [addedId, setAddedId] = useState<number | null>(null)
   const [cartOpen, setCartOpen] = useState(false)
+  const [step, setStep] = useState<Step>('cart')
+  const [form, setForm] = useState<OrderForm>({ name: '', phone: '', city: '', address: '', payment: 'COD' })
+  const [errors, setErrors] = useState<Partial<OrderForm>>({})
 
   const addToCart = (product: typeof products[0]) => {
     setCart(prev => {
@@ -102,6 +107,7 @@ export default function ProductsSection() {
     })
     setAddedId(product.id)
     setTimeout(() => setAddedId(null), 1500)
+    setStep('cart')
     setCartOpen(true)
   }
 
@@ -114,11 +120,34 @@ export default function ProductsSection() {
   const total = cart.reduce((s, i) => s + i.price * i.qty, 0)
   const totalQty = cart.reduce((s, i) => s + i.qty, 0)
 
-  const orderWhatsApp = () => {
-    const lines = cart.map(i => `• ${i.name} x${i.qty} = PKR ${(i.price * i.qty).toLocaleString()}`).join('\n')
-    const msg = `Assalam o Alaikum ZORX! 🌿\n\nI want to place an order:\n\n${lines}\n\n*Total: PKR ${total.toLocaleString()}*\n\nKindly confirm and share payment/delivery details. Thank you!`
-    window.open(`https://wa.me/923000322036?text=${encodeURIComponent(msg)}`, '_blank')
+  const validate = () => {
+    const e: Partial<OrderForm> = {}
+    if (!form.name.trim()) e.name = 'Name is required'
+    if (!form.phone.trim() || form.phone.length < 10) e.phone = 'Valid phone number required'
+    if (!form.city.trim()) e.city = 'City is required'
+    if (!form.address.trim()) e.address = 'Delivery address is required'
+    setErrors(e)
+    return Object.keys(e).length === 0
   }
+
+  const placeOrder = () => {
+    if (!validate()) return
+    const lines = cart.map(i => `• ${i.name} x${i.qty} = PKR ${(i.price * i.qty).toLocaleString()}`).join('\n')
+    const msg =
+      `🌿 *New ZORX Order*\n\n` +
+      `👤 *Name:* ${form.name}\n` +
+      `📞 *Phone:* ${form.phone}\n` +
+      `🏙️ *City:* ${form.city}\n` +
+      `📍 *Address:* ${form.address}\n` +
+      `💳 *Payment:* ${form.payment}\n\n` +
+      `🛒 *Order Details:*\n${lines}\n\n` +
+      `💰 *Total: PKR ${total.toLocaleString()}*\n\n` +
+      `Please confirm this order. Shukriya! 🙏`
+    window.open(`https://wa.me/923000322036?text=${encodeURIComponent(msg)}`, '_blank')
+    setStep('done')
+  }
+
+  const closeCart = () => { setCartOpen(false); setTimeout(() => setStep('cart'), 300) }
 
   return (
     <section id="products" className="relative py-20 md:py-28 bg-[#050f09] overflow-hidden">
@@ -329,86 +358,186 @@ export default function ProductsSection() {
       <AnimatePresence>
         {cartOpen && (
           <>
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              onClick={() => setCartOpen(false)}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
-            />
-            {/* Drawer */}
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              onClick={closeCart} className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50" />
+
             <motion.div
               initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
               className="fixed right-0 top-0 bottom-0 w-full max-w-sm bg-[#060e09] border-l border-green-900/40 z-50 flex flex-col shadow-2xl"
             >
-              {/* Header */}
-              <div className="flex items-center justify-between p-5 border-b border-green-900/30">
+              {/* ── STEP INDICATOR ── */}
+              <div className="flex items-center justify-between px-5 pt-5 pb-3 border-b border-green-900/30">
                 <div className="flex items-center gap-2">
-                  <ShoppingCart className="w-5 h-5 text-green-400" />
-                  <h3 className="text-white font-bold text-lg">Your Order</h3>
-                  {totalQty > 0 && <span className="bg-green-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">{totalQty}</span>}
+                  {step === 'form' && (
+                    <button onClick={() => setStep('cart')} className="text-neutral-500 hover:text-white mr-1 transition-colors">
+                      <ChevronLeft className="w-5 h-5" />
+                    </button>
+                  )}
+                  <div className="flex items-center gap-1.5">
+                    {(['cart', 'form', 'done'] as Step[]).map((s, i) => (
+                      <div key={s} className={`h-1.5 rounded-full transition-all ${step === s ? 'w-6 bg-green-400' : 'w-1.5 bg-neutral-700'}`} />
+                    ))}
+                  </div>
+                  <span className="text-white font-bold text-sm ml-2">
+                    {step === 'cart' ? 'Your Cart' : step === 'form' ? 'Delivery Details' : 'Order Placed!'}
+                  </span>
+                  {step === 'cart' && totalQty > 0 && (
+                    <span className="bg-green-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">{totalQty}</span>
+                  )}
                 </div>
-                <button onClick={() => setCartOpen(false)} className="text-neutral-500 hover:text-white transition-colors">
+                <button onClick={closeCart} className="text-neutral-500 hover:text-white transition-colors">
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
-              {/* Items */}
-              <div className="flex-1 overflow-y-auto p-5 space-y-3">
-                {cart.length === 0 ? (
-                  <div className="text-center py-16">
-                    <ShoppingCart className="w-12 h-12 text-neutral-700 mx-auto mb-3" />
-                    <p className="text-neutral-500">Your cart is empty</p>
-                    <p className="text-neutral-600 text-sm mt-1">Add a product to get started</p>
-                  </div>
-                ) : (
-                  cart.map(item => (
-                    <div key={item.id} className="flex items-center gap-3 p-3 rounded-2xl bg-[#0a140a] border border-green-900/30">
-                      <div className="flex-1">
-                        <p className="text-white font-semibold text-sm">{item.name}</p>
-                        <p className="text-green-400 text-xs">PKR {item.price.toLocaleString()} each</p>
+              {/* ── STEP 1: CART ── */}
+              {step === 'cart' && (
+                <>
+                  <div className="flex-1 overflow-y-auto p-5 space-y-3">
+                    {cart.length === 0 ? (
+                      <div className="text-center py-16">
+                        <ShoppingCart className="w-12 h-12 text-neutral-700 mx-auto mb-3" />
+                        <p className="text-neutral-500">Your cart is empty</p>
+                        <p className="text-neutral-600 text-sm mt-1">Add a product to get started</p>
                       </div>
-                      {/* Qty controls */}
-                      <div className="flex items-center gap-2">
-                        <button onClick={() => updateQty(item.id, -1)} className="w-7 h-7 rounded-full bg-green-900/40 border border-green-800/50 flex items-center justify-center text-green-400 hover:bg-green-800/50 transition-colors">
-                          <Minus className="w-3 h-3" />
+                    ) : cart.map(item => (
+                      <div key={item.id} className="flex items-center gap-3 p-3 rounded-2xl bg-[#0a140a] border border-green-900/30">
+                        <div className="flex-1">
+                          <p className="text-white font-semibold text-sm">{item.name}</p>
+                          <p className="text-green-400 text-xs">PKR {item.price.toLocaleString()}</p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <button onClick={() => updateQty(item.id, -1)} className="w-7 h-7 rounded-full bg-green-900/40 border border-green-800/50 flex items-center justify-center text-green-400 hover:bg-green-800/50 transition-colors">
+                            <Minus className="w-3 h-3" />
+                          </button>
+                          <span className="text-white font-bold text-sm w-4 text-center">{item.qty}</span>
+                          <button onClick={() => updateQty(item.id, 1)} className="w-7 h-7 rounded-full bg-green-900/40 border border-green-800/50 flex items-center justify-center text-green-400 hover:bg-green-800/50 transition-colors">
+                            <Plus className="w-3 h-3" />
+                          </button>
+                        </div>
+                        <p className="text-white font-bold text-sm min-w-[72px] text-right">PKR {(item.price * item.qty).toLocaleString()}</p>
+                        <button onClick={() => removeItem(item.id)} className="text-neutral-700 hover:text-red-400 transition-colors">
+                          <Trash2 className="w-4 h-4" />
                         </button>
-                        <span className="text-white font-bold text-sm w-4 text-center">{item.qty}</span>
-                        <button onClick={() => updateQty(item.id, 1)} className="w-7 h-7 rounded-full bg-green-900/40 border border-green-800/50 flex items-center justify-center text-green-400 hover:bg-green-800/50 transition-colors">
-                          <Plus className="w-3 h-3" />
-                        </button>
                       </div>
-                      <div className="text-right min-w-[70px]">
-                        <p className="text-white font-bold text-sm">PKR {(item.price * item.qty).toLocaleString()}</p>
-                      </div>
-                      <button onClick={() => removeItem(item.id)} className="text-neutral-700 hover:text-red-400 transition-colors ml-1">
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
-                  ))
-                )}
-              </div>
-
-              {/* Footer */}
-              {cart.length > 0 && (
-                <div className="p-5 border-t border-green-900/30 space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-neutral-400">Total</span>
-                    <span className="text-white font-black text-xl">PKR {total.toLocaleString()}</span>
-                  </div>
-                  <div className="flex gap-2 flex-wrap text-xs text-neutral-500">
-                    {['💵 COD Available', '📱 JazzCash', '🚚 Nationwide'].map(t => (
-                      <span key={t} className="bg-neutral-900/60 border border-neutral-800 rounded-full px-2.5 py-1">{t}</span>
                     ))}
                   </div>
-                  <button
-                    onClick={orderWhatsApp}
-                    className="w-full flex items-center justify-center gap-2 py-4 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold text-base hover:from-green-400 hover:to-emerald-500 transition-all hover:scale-[1.02] shadow-xl shadow-green-900/40"
-                  >
-                    <MessageCircle className="w-5 h-5" />
-                    Order on WhatsApp
+                  {cart.length > 0 && (
+                    <div className="p-5 border-t border-green-900/30 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-neutral-400">Total</span>
+                        <span className="text-white font-black text-xl">PKR {total.toLocaleString()}</span>
+                      </div>
+                      <button onClick={() => setStep('form')}
+                        className="w-full flex items-center justify-center gap-2 py-4 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold text-base hover:from-green-400 hover:to-emerald-500 transition-all hover:scale-[1.02] shadow-xl shadow-green-900/40">
+                        <Package className="w-5 h-5" />
+                        Proceed to Order
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
+
+              {/* ── STEP 2: DELIVERY FORM ── */}
+              {step === 'form' && (
+                <>
+                  <div className="flex-1 overflow-y-auto p-5 space-y-4">
+                    <p className="text-neutral-400 text-sm">Fill in your details — we&apos;ll confirm your order on WhatsApp.</p>
+
+                    {/* Order summary mini */}
+                    <div className="p-3 rounded-xl bg-green-900/15 border border-green-800/30 space-y-1">
+                      {cart.map(i => (
+                        <div key={i.id} className="flex justify-between text-xs">
+                          <span className="text-neutral-400">{i.name} x{i.qty}</span>
+                          <span className="text-green-400 font-semibold">PKR {(i.price * i.qty).toLocaleString()}</span>
+                        </div>
+                      ))}
+                      <div className="flex justify-between text-sm font-bold pt-1 border-t border-green-900/30 mt-1">
+                        <span className="text-white">Total</span>
+                        <span className="text-green-400">PKR {total.toLocaleString()}</span>
+                      </div>
+                    </div>
+
+                    {/* Name */}
+                    <div>
+                      <label className="text-neutral-400 text-xs font-medium mb-1.5 flex items-center gap-1.5"><User className="w-3.5 h-3.5" />Full Name *</label>
+                      <input value={form.name} onChange={e => setForm(f => ({...f, name: e.target.value}))}
+                        placeholder="e.g. Ahmed Khan"
+                        className={`w-full bg-[#0a140a] border ${errors.name ? 'border-red-500/60' : 'border-green-900/40'} rounded-xl px-4 py-3 text-white placeholder-neutral-600 text-sm focus:outline-none focus:border-green-500/60 transition-colors`} />
+                      {errors.name && <p className="text-red-400 text-xs mt-1">{errors.name}</p>}
+                    </div>
+
+                    {/* Phone */}
+                    <div>
+                      <label className="text-neutral-400 text-xs font-medium mb-1.5 flex items-center gap-1.5"><Phone className="w-3.5 h-3.5" />Phone / WhatsApp *</label>
+                      <input value={form.phone} onChange={e => setForm(f => ({...f, phone: e.target.value}))}
+                        placeholder="e.g. 0300-1234567"
+                        type="tel"
+                        className={`w-full bg-[#0a140a] border ${errors.phone ? 'border-red-500/60' : 'border-green-900/40'} rounded-xl px-4 py-3 text-white placeholder-neutral-600 text-sm focus:outline-none focus:border-green-500/60 transition-colors`} />
+                      {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone}</p>}
+                    </div>
+
+                    {/* City */}
+                    <div>
+                      <label className="text-neutral-400 text-xs font-medium mb-1.5 flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5" />City *</label>
+                      <input value={form.city} onChange={e => setForm(f => ({...f, city: e.target.value}))}
+                        placeholder="e.g. Karachi, Lahore, Islamabad"
+                        className={`w-full bg-[#0a140a] border ${errors.city ? 'border-red-500/60' : 'border-green-900/40'} rounded-xl px-4 py-3 text-white placeholder-neutral-600 text-sm focus:outline-none focus:border-green-500/60 transition-colors`} />
+                      {errors.city && <p className="text-red-400 text-xs mt-1">{errors.city}</p>}
+                    </div>
+
+                    {/* Address */}
+                    <div>
+                      <label className="text-neutral-400 text-xs font-medium mb-1.5 flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5" />Full Delivery Address *</label>
+                      <textarea value={form.address} onChange={e => setForm(f => ({...f, address: e.target.value}))}
+                        placeholder="House/Flat no., Street, Area..."
+                        rows={3}
+                        className={`w-full bg-[#0a140a] border ${errors.address ? 'border-red-500/60' : 'border-green-900/40'} rounded-xl px-4 py-3 text-white placeholder-neutral-600 text-sm focus:outline-none focus:border-green-500/60 transition-colors resize-none`} />
+                      {errors.address && <p className="text-red-400 text-xs mt-1">{errors.address}</p>}
+                    </div>
+
+                    {/* Payment method */}
+                    <div>
+                      <label className="text-neutral-400 text-xs font-medium mb-2 block">Payment Method</label>
+                      <div className="grid grid-cols-3 gap-2">
+                        {['COD', 'JazzCash', 'EasyPaisa'].map(pm => (
+                          <button key={pm} onClick={() => setForm(f => ({...f, payment: pm}))}
+                            className={`py-2 rounded-xl text-xs font-semibold border transition-all ${form.payment === pm ? 'bg-green-500/20 border-green-500/60 text-green-400' : 'bg-[#0a140a] border-green-900/30 text-neutral-500 hover:border-green-700/40'}`}>
+                            {pm === 'COD' ? '💵 COD' : pm === 'JazzCash' ? '📱 JazzCash' : '💳 EasyPaisa'}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-5 border-t border-green-900/30">
+                    <button onClick={placeOrder}
+                      className="w-full flex items-center justify-center gap-2 py-4 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold text-base hover:from-green-400 hover:to-emerald-500 transition-all hover:scale-[1.02] shadow-xl shadow-green-900/40">
+                      <MessageCircle className="w-5 h-5" />
+                      Confirm Order on WhatsApp
+                    </button>
+                    <p className="text-center text-neutral-600 text-xs mt-2">Your details go directly to ZORX on WhatsApp</p>
+                  </div>
+                </>
+              )}
+
+              {/* ── STEP 3: DONE ── */}
+              {step === 'done' && (
+                <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
+                  <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', delay: 0.1 }}
+                    className="w-20 h-20 rounded-full bg-green-500/20 border border-green-500/40 flex items-center justify-center mb-6">
+                    <Check className="w-10 h-10 text-green-400" />
+                  </motion.div>
+                  <h3 className="text-white font-black text-2xl mb-2">Order Sent! 🎉</h3>
+                  <p className="text-neutral-400 text-sm leading-relaxed mb-2">
+                    Your order has been sent to ZORX on WhatsApp. We&apos;ll confirm and share delivery details shortly.
+                  </p>
+                  <p className="text-green-400 text-sm font-semibold mb-8">Usually confirmed within 1–2 hours ⚡</p>
+                  <button onClick={() => { setCart([]); setForm({ name: '', phone: '', city: '', address: '', payment: 'COD' }); closeCart(); }}
+                    className="px-8 py-3 rounded-full bg-green-500/15 border border-green-600/40 text-green-400 font-semibold text-sm hover:bg-green-500/25 transition-colors">
+                    Back to Shop
                   </button>
-                  <p className="text-center text-neutral-600 text-xs">We&apos;ll confirm your order & share delivery details</p>
                 </div>
               )}
             </motion.div>
