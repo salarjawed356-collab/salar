@@ -6,6 +6,7 @@ import { ShoppingCart, Star, ChevronRight, BadgeCheck, Zap, Check, X, Plus, Minu
 
 type CartItem = { id: number; name: string; price: number; weight: string; qty: number }
 type Step = 'cart' | 'form' | 'done'
+type OrderMethod = 'website' | 'whatsapp' | null
 type OrderForm = { name: string; phone: string; city: string; address: string; payment: string }
 
 
@@ -98,6 +99,8 @@ export default function ProductsSection() {
   const [step, setStep] = useState<Step>('cart')
   const [form, setForm] = useState<OrderForm>({ name: '', phone: '', city: '', address: '', payment: 'COD' })
   const [errors, setErrors] = useState<Partial<OrderForm>>({})
+  const [orderMethod, setOrderMethod] = useState<OrderMethod>(null)
+  const [submitting, setSubmitting] = useState(false)
 
   const addToCart = (product: typeof products[0]) => {
     setCart(prev => {
@@ -130,7 +133,33 @@ export default function ProductsSection() {
     return Object.keys(e).length === 0
   }
 
-  const placeOrder = () => {
+  // Submit order directly on website via Netlify Forms
+  const placeWebsiteOrder = async () => {
+    if (!validate()) return
+    setSubmitting(true)
+    try {
+      const body = new URLSearchParams({
+        'form-name': 'zorx-order',
+        name: form.name,
+        phone: form.phone,
+        city: form.city,
+        address: form.address,
+        payment: form.payment,
+        items: cart.map(i => `${i.name} x${i.qty} (PKR ${(i.price * i.qty).toLocaleString()})`).join(' | '),
+        total: `PKR ${total.toLocaleString()}`,
+      })
+      await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body.toString() })
+      setOrderMethod('website')
+      setStep('done')
+    } catch {
+      alert('Something went wrong. Please try WhatsApp instead.')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  // Send order via WhatsApp
+  const placeWhatsAppOrder = () => {
     if (!validate()) return
     const lines = cart.map(i => `• ${i.name} x${i.qty} = PKR ${(i.price * i.qty).toLocaleString()}`).join('\n')
     const msg =
@@ -144,10 +173,11 @@ export default function ProductsSection() {
       `💰 *Total: PKR ${total.toLocaleString()}*\n\n` +
       `Please confirm this order. Shukriya! 🙏`
     window.open(`https://wa.me/923000322036?text=${encodeURIComponent(msg)}`, '_blank')
+    setOrderMethod('whatsapp')
     setStep('done')
   }
 
-  const closeCart = () => { setCartOpen(false); setTimeout(() => setStep('cart'), 300) }
+  const closeCart = () => { setCartOpen(false); setTimeout(() => { setStep('cart'); setOrderMethod(null) }, 300) }
 
   return (
     <section id="products" className="relative py-20 md:py-28 bg-[#050f09] overflow-hidden">
@@ -511,13 +541,30 @@ export default function ProductsSection() {
                     </div>
                   </div>
 
-                  <div className="p-5 border-t border-green-900/30">
-                    <button onClick={placeOrder}
-                      className="w-full flex items-center justify-center gap-2 py-4 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold text-base hover:from-green-400 hover:to-emerald-500 transition-all hover:scale-[1.02] shadow-xl shadow-green-900/40">
-                      <MessageCircle className="w-5 h-5" />
-                      Confirm Order on WhatsApp
+                  <div className="p-5 border-t border-green-900/30 space-y-3">
+                    {/* Option 1 — Website order */}
+                    <button onClick={placeWebsiteOrder} disabled={submitting}
+                      className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold text-sm hover:from-green-400 hover:to-emerald-500 transition-all hover:scale-[1.02] shadow-xl shadow-green-900/40 disabled:opacity-60 disabled:cursor-not-allowed">
+                      {submitting ? (
+                        <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>
+                      ) : <Package className="w-4 h-4" />}
+                      {submitting ? 'Placing Order...' : '🌐 Place Order on Website'}
                     </button>
-                    <p className="text-center text-neutral-600 text-xs mt-2">Your details go directly to ZORX on WhatsApp</p>
+
+                    {/* Divider */}
+                    <div className="flex items-center gap-3">
+                      <div className="flex-1 h-px bg-green-900/30" />
+                      <span className="text-neutral-600 text-xs">or</span>
+                      <div className="flex-1 h-px bg-green-900/30" />
+                    </div>
+
+                    {/* Option 2 — WhatsApp */}
+                    <button onClick={placeWhatsAppOrder}
+                      className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl bg-[#0a140a] border border-green-700/40 text-green-400 font-bold text-sm hover:bg-green-900/25 transition-all hover:scale-[1.02]">
+                      <MessageCircle className="w-4 h-4" />
+                      💬 Order via WhatsApp
+                    </button>
+                    <p className="text-center text-neutral-600 text-xs">Both options send your order to ZORX team</p>
                   </div>
                 </>
               )}
@@ -529,9 +576,13 @@ export default function ProductsSection() {
                     className="w-20 h-20 rounded-full bg-green-500/20 border border-green-500/40 flex items-center justify-center mb-6">
                     <Check className="w-10 h-10 text-green-400" />
                   </motion.div>
-                  <h3 className="text-white font-black text-2xl mb-2">Order Sent! 🎉</h3>
+                  <h3 className="text-white font-black text-2xl mb-2">
+                    {orderMethod === 'website' ? 'Order Placed! 🎉' : 'Order Sent! 🎉'}
+                  </h3>
                   <p className="text-neutral-400 text-sm leading-relaxed mb-2">
-                    Your order has been sent to ZORX on WhatsApp. We&apos;ll confirm and share delivery details shortly.
+                    {orderMethod === 'website'
+                      ? `Your order has been received! We'll call you on ${form.phone} to confirm delivery details.`
+                      : `Your order has been sent to ZORX on WhatsApp. We'll confirm and share delivery details shortly.`}
                   </p>
                   <p className="text-green-400 text-sm font-semibold mb-8">Usually confirmed within 1–2 hours ⚡</p>
                   <button onClick={() => { setCart([]); setForm({ name: '', phone: '', city: '', address: '', payment: 'COD' }); closeCart(); }}

@@ -13,6 +13,17 @@ import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#050f09] text-white overflow-x-hidden">
+      {/* Hidden form — Netlify detects this at build time for form submissions */}
+      <form name="zorx-order" data-netlify="true" hidden>
+        <input name="name" />
+        <input name="phone" />
+        <input name="city" />
+        <input name="address" />
+        <input name="payment" />
+        <input name="items" />
+        <input name="total" />
+      </form>
+
       <Navbar />
       <HeroSection />
       <AboutSection />
