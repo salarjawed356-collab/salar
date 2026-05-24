@@ -2,12 +2,34 @@
 
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 import { useRef, useState } from 'react'
-import { ShoppingCart, Star, ChevronRight, BadgeCheck, Zap, Check, X, Plus, Minus, MessageCircle, Trash2, User, Phone, MapPin, ChevronLeft, Package } from 'lucide-react'
+import { ShoppingCart, Star, ChevronRight, BadgeCheck, Zap, Check, X, Plus, Minus, MessageCircle, Trash2, User, Phone, MapPin, ChevronLeft, Package, Copy, CheckCheck, Landmark } from 'lucide-react'
 
 type CartItem = { id: number; name: string; price: number; weight: string; qty: number }
 type Step = 'cart' | 'form' | 'done'
 type OrderMethod = 'website' | 'whatsapp' | null
 type OrderForm = { name: string; phone: string; city: string; address: string; payment: string }
+
+function BankRow({ label, value, copyable }: { label: string; value: string; copyable?: boolean }) {
+  const [copied, setCopied] = useState(false)
+  const copy = () => {
+    navigator.clipboard.writeText(value)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+  return (
+    <div className="flex items-center justify-between">
+      <span className="text-neutral-500 text-xs">{label}</span>
+      <div className="flex items-center gap-2">
+        <span className="text-white font-semibold text-xs tracking-wide">{value}</span>
+        {copyable && (
+          <button onClick={copy} className="text-neutral-600 hover:text-green-400 transition-colors">
+            {copied ? <CheckCheck className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5" />}
+          </button>
+        )}
+      </div>
+    </div>
+  )
+}
 
 
 const products = [
@@ -168,7 +190,7 @@ export default function ProductsSection() {
       `📞 *Phone:* ${form.phone}\n` +
       `🏙️ *City:* ${form.city}\n` +
       `📍 *Address:* ${form.address}\n` +
-      `💳 *Payment:* ${form.payment}\n\n` +
+      `💳 *Payment:* ${form.payment === 'BankTransfer' ? 'Bank Transfer (Meezan Bank)' : form.payment}\n\n` +
       `🛒 *Order Details:*\n${lines}\n\n` +
       `💰 *Total: PKR ${total.toLocaleString()}*\n\n` +
       `Please confirm this order. Shukriya! 🙏`
@@ -530,14 +552,35 @@ export default function ProductsSection() {
                     {/* Payment method */}
                     <div>
                       <label className="text-neutral-400 text-xs font-medium mb-2 block">Payment Method</label>
-                      <div className="grid grid-cols-3 gap-2">
-                        {['COD', 'JazzCash', 'EasyPaisa'].map(pm => (
-                          <button key={pm} onClick={() => setForm(f => ({...f, payment: pm}))}
-                            className={`py-2 rounded-xl text-xs font-semibold border transition-all ${form.payment === pm ? 'bg-green-500/20 border-green-500/60 text-green-400' : 'bg-[#0a140a] border-green-900/30 text-neutral-500 hover:border-green-700/40'}`}>
-                            {pm === 'COD' ? '💵 COD' : pm === 'JazzCash' ? '📱 JazzCash' : '💳 EasyPaisa'}
+                      <div className="grid grid-cols-2 gap-2">
+                        {[
+                          { id: 'COD',          label: '💵 Cash on Delivery' },
+                          { id: 'JazzCash',     label: '📱 JazzCash' },
+                          { id: 'EasyPaisa',    label: '💳 EasyPaisa' },
+                          { id: 'BankTransfer', label: '🏦 Bank Transfer' },
+                        ].map(pm => (
+                          <button key={pm.id} onClick={() => setForm(f => ({...f, payment: pm.id}))}
+                            className={`py-2.5 rounded-xl text-xs font-semibold border transition-all ${form.payment === pm.id ? 'bg-green-500/20 border-green-500/60 text-green-400' : 'bg-[#0a140a] border-green-900/30 text-neutral-500 hover:border-green-700/40'}`}>
+                            {pm.label}
                           </button>
                         ))}
                       </div>
+
+                      {/* Meezan Bank details — shown only when Bank Transfer is selected */}
+                      {form.payment === 'BankTransfer' && (
+                        <div className="mt-3 p-4 rounded-2xl bg-[#071a0d] border border-green-700/40 space-y-3">
+                          <div className="flex items-center gap-2 mb-1">
+                            <Landmark className="w-4 h-4 text-green-400" />
+                            <p className="text-green-400 font-bold text-sm">Meezan Bank — Transfer Details</p>
+                          </div>
+                          <BankRow label="Account Title" value="Salar Jawed Tanwri" />
+                          <BankRow label="Account No."   value="98890107455667" copyable />
+                          <BankRow label="Bank"          value="Meezan Bank" />
+                          <p className="text-neutral-600 text-[11px] pt-1 border-t border-green-900/30">
+                            After transfer, send screenshot on WhatsApp to confirm your order.
+                          </p>
+                        </div>
+                      )}
                     </div>
                   </div>
 

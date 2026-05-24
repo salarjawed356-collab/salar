@@ -3,9 +3,10 @@
   "configurations": [
     {
       "name": "vitaroot-dev",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
-      "port": 3000
+      "runtimeExecutable": "/Users/owner/vitaroot-dev.sh",
+      "runtimeArgs": [],
+      "port": 3001,
+      "autoPort": true
     }
   ]
 }
