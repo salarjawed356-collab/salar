@@ -170,7 +170,7 @@ export default function ProductsSection() {
         items: cart.map(i => `${i.name} x${i.qty} (PKR ${(i.price * i.qty).toLocaleString()})`).join(' | '),
         total: `PKR ${total.toLocaleString()}`,
       })
-      await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body.toString() })
+      await fetch('/order.html', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body.toString() })
       setOrderMethod('website')
       setStep('done')
     } catch {
