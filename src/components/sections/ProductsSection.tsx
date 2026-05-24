@@ -1,8 +1,11 @@
 'use client'
 
-import { motion, useInView } from 'framer-motion'
+import { motion, useInView, AnimatePresence } from 'framer-motion'
 import { useRef, useState } from 'react'
-import { ShoppingCart, Star, ChevronRight, BadgeCheck, Zap } from 'lucide-react'
+import { ShoppingCart, Star, ChevronRight, BadgeCheck, Zap, Check, X, Plus, Minus, MessageCircle, Trash2 } from 'lucide-react'
+
+type CartItem = { id: number; name: string; price: number; weight: string; qty: number }
+
 
 const products = [
   {
@@ -87,6 +90,35 @@ export default function ProductsSection() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-80px' })
   const [hoveredId, setHoveredId] = useState<number | null>(null)
+  const [cart, setCart] = useState<CartItem[]>([])
+  const [addedId, setAddedId] = useState<number | null>(null)
+  const [cartOpen, setCartOpen] = useState(false)
+
+  const addToCart = (product: typeof products[0]) => {
+    setCart(prev => {
+      const existing = prev.find(i => i.id === product.id)
+      if (existing) return prev.map(i => i.id === product.id ? { ...i, qty: i.qty + 1 } : i)
+      return [...prev, { id: product.id, name: product.name, price: product.priceNum, weight: product.weight, qty: 1 }]
+    })
+    setAddedId(product.id)
+    setTimeout(() => setAddedId(null), 1500)
+    setCartOpen(true)
+  }
+
+  const updateQty = (id: number, delta: number) => {
+    setCart(prev => prev.map(i => i.id === id ? { ...i, qty: Math.max(1, i.qty + delta) } : i))
+  }
+
+  const removeItem = (id: number) => setCart(prev => prev.filter(i => i.id !== id))
+
+  const total = cart.reduce((s, i) => s + i.price * i.qty, 0)
+  const totalQty = cart.reduce((s, i) => s + i.qty, 0)
+
+  const orderWhatsApp = () => {
+    const lines = cart.map(i => `• ${i.name} x${i.qty} = PKR ${(i.price * i.qty).toLocaleString()}`).join('\n')
+    const msg = `Assalam o Alaikum ZORX! 🌿\n\nI want to place an order:\n\n${lines}\n\n*Total: PKR ${total.toLocaleString()}*\n\nKindly confirm and share payment/delivery details. Thank you!`
+    window.open(`https://wa.me/923000322036?text=${encodeURIComponent(msg)}`, '_blank')
+  }
 
   return (
     <section id="products" className="relative py-20 md:py-28 bg-[#050f09] overflow-hidden">
@@ -228,9 +260,16 @@ export default function ProductsSection() {
                     <p className="text-white font-bold text-2xl">{product.price}</p>
                     <p className="text-neutral-500 text-xs">{product.weight} · {product.servings} · SKU: {product.sku}</p>
                   </div>
-                  <button className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold text-sm hover:from-green-400 hover:to-emerald-500 transition-all duration-300 shadow-lg shadow-green-900/40 hover:scale-105">
-                    <ShoppingCart className="w-4 h-4" />
-                    Add to Cart
+                  <button
+                    onClick={() => addToCart(product)}
+                    className={`flex items-center gap-2 px-4 py-2.5 rounded-full font-semibold text-sm transition-all duration-300 shadow-lg hover:scale-105 ${
+                      addedId === product.id
+                        ? 'bg-gradient-to-r from-green-400 to-emerald-500 text-white shadow-green-900/40'
+                        : 'bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:from-green-400 hover:to-emerald-500 shadow-green-900/40'
+                    }`}
+                  >
+                    {addedId === product.id ? <Check className="w-4 h-4" /> : <ShoppingCart className="w-4 h-4" />}
+                    {addedId === product.id ? 'Added!' : 'Add to Cart'}
                   </button>
                 </div>
               </div>
@@ -271,6 +310,111 @@ export default function ProductsSection() {
           ))}
         </motion.div>
       </div>
+
+      {/* Floating cart button */}
+      <AnimatePresence>
+        {totalQty > 0 && !cartOpen && (
+          <motion.button
+            initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0, opacity: 0 }}
+            onClick={() => setCartOpen(true)}
+            className="fixed bottom-24 right-5 z-50 flex items-center gap-2 px-4 py-3 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold shadow-2xl shadow-green-900/60 hover:scale-105 transition-transform"
+          >
+            <ShoppingCart className="w-5 h-5" />
+            Cart ({totalQty})
+          </motion.button>
+        )}
+      </AnimatePresence>
+
+      {/* Cart Drawer */}
+      <AnimatePresence>
+        {cartOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              onClick={() => setCartOpen(false)}
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
+            />
+            {/* Drawer */}
+            <motion.div
+              initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="fixed right-0 top-0 bottom-0 w-full max-w-sm bg-[#060e09] border-l border-green-900/40 z-50 flex flex-col shadow-2xl"
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between p-5 border-b border-green-900/30">
+                <div className="flex items-center gap-2">
+                  <ShoppingCart className="w-5 h-5 text-green-400" />
+                  <h3 className="text-white font-bold text-lg">Your Order</h3>
+                  {totalQty > 0 && <span className="bg-green-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">{totalQty}</span>}
+                </div>
+                <button onClick={() => setCartOpen(false)} className="text-neutral-500 hover:text-white transition-colors">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Items */}
+              <div className="flex-1 overflow-y-auto p-5 space-y-3">
+                {cart.length === 0 ? (
+                  <div className="text-center py-16">
+                    <ShoppingCart className="w-12 h-12 text-neutral-700 mx-auto mb-3" />
+                    <p className="text-neutral-500">Your cart is empty</p>
+                    <p className="text-neutral-600 text-sm mt-1">Add a product to get started</p>
+                  </div>
+                ) : (
+                  cart.map(item => (
+                    <div key={item.id} className="flex items-center gap-3 p-3 rounded-2xl bg-[#0a140a] border border-green-900/30">
+                      <div className="flex-1">
+                        <p className="text-white font-semibold text-sm">{item.name}</p>
+                        <p className="text-green-400 text-xs">PKR {item.price.toLocaleString()} each</p>
+                      </div>
+                      {/* Qty controls */}
+                      <div className="flex items-center gap-2">
+                        <button onClick={() => updateQty(item.id, -1)} className="w-7 h-7 rounded-full bg-green-900/40 border border-green-800/50 flex items-center justify-center text-green-400 hover:bg-green-800/50 transition-colors">
+                          <Minus className="w-3 h-3" />
+                        </button>
+                        <span className="text-white font-bold text-sm w-4 text-center">{item.qty}</span>
+                        <button onClick={() => updateQty(item.id, 1)} className="w-7 h-7 rounded-full bg-green-900/40 border border-green-800/50 flex items-center justify-center text-green-400 hover:bg-green-800/50 transition-colors">
+                          <Plus className="w-3 h-3" />
+                        </button>
+                      </div>
+                      <div className="text-right min-w-[70px]">
+                        <p className="text-white font-bold text-sm">PKR {(item.price * item.qty).toLocaleString()}</p>
+                      </div>
+                      <button onClick={() => removeItem(item.id)} className="text-neutral-700 hover:text-red-400 transition-colors ml-1">
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))
+                )}
+              </div>
+
+              {/* Footer */}
+              {cart.length > 0 && (
+                <div className="p-5 border-t border-green-900/30 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-neutral-400">Total</span>
+                    <span className="text-white font-black text-xl">PKR {total.toLocaleString()}</span>
+                  </div>
+                  <div className="flex gap-2 flex-wrap text-xs text-neutral-500">
+                    {['💵 COD Available', '📱 JazzCash', '🚚 Nationwide'].map(t => (
+                      <span key={t} className="bg-neutral-900/60 border border-neutral-800 rounded-full px-2.5 py-1">{t}</span>
+                    ))}
+                  </div>
+                  <button
+                    onClick={orderWhatsApp}
+                    className="w-full flex items-center justify-center gap-2 py-4 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold text-base hover:from-green-400 hover:to-emerald-500 transition-all hover:scale-[1.02] shadow-xl shadow-green-900/40"
+                  >
+                    <MessageCircle className="w-5 h-5" />
+                    Order on WhatsApp
+                  </button>
+                  <p className="text-center text-neutral-600 text-xs">We&apos;ll confirm your order & share delivery details</p>
+                </div>
+              )}
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </section>
   )
 }
